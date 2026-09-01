@@ -13,7 +13,8 @@ async function getTasks() {
     if (!res.ok) {
       throw new Error("Backend not avaible");
     }
-    tasks.value = await res.json();
+    const data = await res.json();
+    tasks.value = data.tasks;
   } catch (error) {
     console.log("Backend unavailable, using local data");
     const res = await fetch("/Test.json");
