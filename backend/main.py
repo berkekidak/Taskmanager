@@ -6,3 +6,6 @@ app = FastAPI()
 @app.get("/")
 def root():
     return {"message": "Hello world"}
+
+def basketball():
+    return {"message": "Hello basketball"}
