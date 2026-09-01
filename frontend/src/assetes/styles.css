@@ -43,3 +43,49 @@ main {
   -webkit-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
   -moz-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
 }
+
+/* .task { */
+/*   display: flex; */
+/*   gap: 1rem; */
+/**/
+/*   align-items: center; */
+/*   margin-top: 1rem; */
+/*   background: var(--primary-alt-color); */
+/*   color: var(--secondary-color); */
+/*   padding: 1rem 0.5rem; */
+/*   border-radius: 10px; */
+/*   & input { */
+/*     accent-color: var(--territary-color); */
+/*   } */
+/**/
+/*   backdrop-filter: blur(50px); */
+/*   -webkit-backdrop-filter: blur(12px); */
+/*   box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
+/*   -webkit-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
+/*   -moz-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
+/* } */
+
+.task {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  margin-top: 1rem;
+  padding: 1rem 0.5rem;
+
+  background: rgba(106, 153, 78, 0.35);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+
+  color: var(--primary-color);
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  & input {
+    accent-color: var(--territary-color);
+  }
+}
