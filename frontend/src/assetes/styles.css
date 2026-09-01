@@ -11,7 +11,35 @@
   --territary-color: #bc4749ff;
   --yellow-green: #a7c957ff;
 }
+
 body {
   background-color: var(--primary-color);
   color: var(--secondary-color);
+}
+
+.section {
+  min-height: 90vh;
+  padding: 2rem;
+}
+
+main {
+  width: 100vw;
+}
+
+.flex-center {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.task-card {
+  margin: 0rem 4rem;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
+  -webkit-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
 }
