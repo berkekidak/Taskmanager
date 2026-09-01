@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "title": "Write a task",
+    "done": true
+  },
+  {
+    "id": 2,
+    "title": "Finish Vue frontend",
+    "done": false
+  },
+  {
+    "id": 3,
+    "title": "Create FastAPI backend",
+    "done": false
+  },
+  {
+    "id": 4,
+    "title": "Go to the gym",
+    "done": true
+  },
+  {
+    "id": 5,
+    "title": "Buy groceries",
+    "done": false
+  }
+]
