@@ -25,9 +25,16 @@ async function getTasks() {
 
 function addTask() {
   if (!newTask.value.trim()) return;
-  console.log(newTask.value);
+
+  tasks.value.push({
+    id: Math.max(0, ...tasks.value.map((task) => task.id)) + 1,
+    title: newTask.value,
+    done: false,
+  });
+
   newTask.value = "";
 }
+
 onMounted(() => {
   getTasks();
 });
@@ -46,7 +53,14 @@ onMounted(() => {
           </div>
         </div>
 
-        <form @submit.prevent="addTask"></form>
+        <form @submit.prevent="addTask" class="task-form">
+          <input
+            type="text"
+            v-model="newTask"
+            placeholder="Please enter a new task..."
+          />
+          <button type="submit">Add</button>
+        </form>
 
         <TaskCard v-for="task in tasks" :key="task.id" :task="task" />
       </div>
