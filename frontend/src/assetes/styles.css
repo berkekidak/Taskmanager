@@ -43,35 +43,13 @@ main {
   -webkit-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
   -moz-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57);
 }
-
-/* .task { */
-/*   display: flex; */
-/*   gap: 1rem; */
-/**/
-/*   align-items: center; */
-/*   margin-top: 1rem; */
-/*   background: var(--primary-alt-color); */
-/*   color: var(--secondary-color); */
-/*   padding: 1rem 0.5rem; */
-/*   border-radius: 10px; */
-/*   & input { */
-/*     accent-color: var(--territary-color); */
-/*   } */
-/**/
-/*   backdrop-filter: blur(50px); */
-/*   -webkit-backdrop-filter: blur(12px); */
-/*   box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
-/*   -webkit-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
-/*   -moz-box-shadow: 10px 21px 42px 2px rgba(0, 0, 0, 0.57); */
-/* } */
-
 .task {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  justify-content: space-between;
 
   margin-top: 1rem;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
 
   background: rgba(106, 153, 78, 0.35);
 
@@ -84,8 +62,32 @@ main {
   color: var(--primary-color);
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
 
-  & input {
-    accent-color: var(--territary-color);
+.task-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.task input[type="checkbox"] {
+  transform: scale(1.5);
+  cursor: pointer;
+  accent-color: var(--territary-color);
+}
+
+.task-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--territary-color);
+  padding: 1rem;
+  transition: transform 0.2 ease;
+  & :nth-child(2) {
+    color: var(--primary-color);
+  }
+
+  & :hover {
+    transform: scale(1.2);
+    cursor: pointer;
   }
 }

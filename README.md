@@ -6,6 +6,8 @@ an application for managing your tasks. Taskmanager can track new tasks and mark
 
 -
 
+## Setup
+
 ## Features
 
 - Frontend and backend handshake

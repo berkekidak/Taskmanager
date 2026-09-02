@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import TaskCard from "@/components/TaskCard.vue";
 import type { Task } from "@/type/Types.ts";
+import { NotebookPen } from "lucide-vue-next";
 
 const tasks = ref<Task[]>([]);
 
@@ -9,14 +10,14 @@ const newTask = ref("");
 
 async function getTasks() {
   try {
-    const res = await fetch("http://localhost:5000/tasks");
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks`);
     if (!res.ok) {
       throw new Error("Backend not avaible");
     }
     const data = await res.json();
     tasks.value = data.tasks;
   } catch (error) {
-    console.log("Backend unavailable, using local data");
+    console.log("Backend unavailable, using local data: ", error);
     const res = await fetch("/Test.json");
     tasks.value = await res.json();
   }
@@ -38,6 +39,7 @@ onMounted(() => {
       <div class="task-card">
         <div class="task-title">
           <img src="" alt="" />
+          <NotebookPen />
           <div class="task-header">
             <h2>Mini Tasks</h2>
             <p>simple task tracker</p>
