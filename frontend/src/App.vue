@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import TaskCard from "@/components/TaskCard.vue";
+import EditTaskModal from "@/components/EditTaskModal.vue";
 import type { Task } from "@/type/Types.ts";
 import { NotebookPen } from "lucide-vue-next";
 
 const tasks = ref<Task[]>([]);
 
 const newTask = ref("");
+const edit_task = ref<Task | null>(null);
 
 async function getTasks() {
   try {
@@ -23,7 +25,7 @@ async function getTasks() {
   }
 }
 
-function addTask() {
+function addTask(): void {
   if (!newTask.value.trim()) return;
 
   tasks.value.push({
@@ -35,6 +37,30 @@ function addTask() {
   newTask.value = "";
 }
 
+function deleteTask(task_id: Task["id"]): void {
+  tasks.value = tasks.value.filter((t) => t.id !== task_id);
+}
+
+function updateTask(updt_task: Task): void {
+  const index = tasks.value.findIndex((t) => t.id === updt_task.id);
+  if (index === -1) return;
+  tasks.value[index] = updt_task;
+}
+
+function openEdit(task: Task): void {
+  edit_task.value = { ...task };
+}
+
+function closeEdit(): void {
+  edit_task.value = null;
+}
+
+function saveEdit(updated: Task): void {
+  console.log(updated.title);
+  updateTask(updated);
+  closeEdit();
+}
+
 onMounted(() => {
   getTasks();
 });
@@ -42,7 +68,7 @@ onMounted(() => {
 
 <template>
   <main class="flex-center">
-    <section class="section tasks">
+    <section class="section flex-center tasks">
       <div class="task-card">
         <div class="task-title">
           <img src="" alt="" />
@@ -62,7 +88,20 @@ onMounted(() => {
           <button type="submit">Add</button>
         </form>
 
-        <TaskCard v-for="task in tasks" :key="task.id" :task="task" />
+        <TaskCard
+          v-for="task in tasks"
+          :key="task.id"
+          :task="task"
+          :deleteTask="deleteTask"
+          :updateTask="updateTask"
+          :openEdit="openEdit"
+        />
+        <EditTaskModal
+          v-if="edit_task"
+          :task="edit_task"
+          @save="saveEdit"
+          @close="closeEdit"
+        />
       </div>
     </section>
   </main>
