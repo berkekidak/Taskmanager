@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import TaskCard from "@/components/TaskCard.vue";
 import EditTaskModal from "@/components/EditTaskModal.vue";
 import type { Task } from "@/type/Types.ts";
@@ -56,14 +56,26 @@ function closeEdit(): void {
 }
 
 function saveEdit(updated: Task): void {
-  console.log(updated.title);
   updateTask(updated);
   closeEdit();
 }
 
 onMounted(() => {
-  getTasks();
+  const savedTasks = localStorage.getItem("tasks");
+  if (savedTasks) {
+    tasks.value = JSON.parse(savedTasks);
+  } else {
+    getTasks();
+  }
 });
+
+watch(
+  tasks,
+  (newTasks) => {
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+  },
+  { deep: true },
+);
 </script>
 
 <template>
