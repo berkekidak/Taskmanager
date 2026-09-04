@@ -12,17 +12,25 @@ const edit_task = ref<Task | null>(null);
 
 async function getTasks() {
   try {
-  console.log(`${import.meta.env.VITE_BACKEND_URL}/tasks`)
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks`);
+
     if (!res.ok) {
-      throw new Error("Backend not avaible");
+      throw new Error("Backend not available");
     }
+
     const data = await res.json();
     tasks.value = data.tasks;
   } catch (error) {
-    console.log("Backend unavailable, using local data: ", error);
-    const res = await fetch("/Test.json");
-    tasks.value = await res.json();
+    console.log("Backend unavailable, using local data:", error);
+
+    const savedTasks = localStorage.getItem("tasks");
+
+    if (savedTasks) {
+      tasks.value = JSON.parse(savedTasks);
+    } else {
+      const res = await fetch("/Test.json");
+      tasks.value = await res.json();
+    }
   }
 }
 
@@ -61,13 +69,8 @@ function saveEdit(updated: Task): void {
   closeEdit();
 }
 
-onMounted(() => {
-  const savedTasks = localStorage.getItem("tasks");
-  if (savedTasks) {
-    tasks.value = JSON.parse(savedTasks);
-  } else {
-    getTasks();
-  }
+onMounted(async () => {
+  await getTasks();
 });
 
 watch(
