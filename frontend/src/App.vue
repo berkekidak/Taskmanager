@@ -12,6 +12,7 @@ const edit_task = ref<Task | null>(null);
 
 async function getTasks() {
   try {
+  console.log(`${import.meta.env.VITE_BACKEND_URL}/tasks`)
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks`);
     if (!res.ok) {
       throw new Error("Backend not avaible");
