@@ -9,10 +9,11 @@ const tasks = ref<Task[]>([]);
 
 const newTask = ref("");
 const edit_task = ref<Task | null>(null);
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 async function getTasks() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks`);
+    const res = await fetch(`${URL}/tasks`);
 
     if (!res.ok) {
       throw new Error("Backend not available");
@@ -34,13 +35,22 @@ async function getTasks() {
   }
 }
 
-function addTask(): void {
+async function addTask(): void {
   if (!newTask.value.trim()) return;
-
-  tasks.value.push({
+  const task = {
     id: Math.max(0, ...tasks.value.map((task) => task.id)) + 1,
     title: newTask.value,
     done: false,
+  };
+
+  tasks.value.push(task);
+
+  const res = await fetch(`${URL}/tasks`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
   });
 
   newTask.value = "";

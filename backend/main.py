@@ -2,8 +2,15 @@ import sqlite3
 import json
 
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, HttpUrl
+
+
+class Task(BaseModel):
+    id: int
+    title: str
+    done: bool
 
 
 def create_database():
@@ -24,7 +31,6 @@ def create_database():
     connection.close()
 
 
-
 def init_db():
     connection = sqlite3.connect("tasks.db")
     cursor = connection.cursor()
@@ -38,17 +44,12 @@ def init_db():
         """
     )
 
-
     connection.commit()
     connection.close()
 
 
-
-
-
 app = FastAPI()
 create_database()
-
 
 
 app.add_middleware(
@@ -66,12 +67,12 @@ app.add_middleware(
 def root():
     return {"message": "Hello world"}
 
+
 @app.get("/tasks")
 def get_all_tasks():
     conn = sqlite3.connect("tasks.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-
 
     cursor.execute("SELECT * FROM tasks")
     rows = cursor.fetchall()
@@ -80,17 +81,32 @@ def get_all_tasks():
     tasks = []
 
     for row in rows:
-        tasks.append({
-            "id": row["id"],
-            "title": row["title"],
-            "done": bool(row["done"])
-        })
+        tasks.append(
+            {"id": row["id"], "title": row["title"], "done": bool(row["done"])}
+        )
 
     conn.close()
 
-    return {
-        "tasks": tasks
-    }
+    return {"tasks": tasks}
 
 
+@app.post("/tasks", status_code=status.HTTP_201_CREATED)
+def create_task(task: Task):
+    connection = sqlite3.connect("tasks.db")
+    cursor = connection.cursor()
 
+    if task is None:
+        raise HTTPException(status_code=422, detail="Task not found")
+
+    cursor.execute(
+        """
+        INSERT INTO tasks (id, title, done) 
+        VALUES
+        (?,?,?)
+        """,
+        (task.id, task.title, task.done),
+    )
+
+    connection.commit()
+    connection.close()
+    return {"message": "task successfully added"}
