@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { Task } from "@/type/Types.ts";
+import type { Task } from "@/types/Types";
 
 const props = defineProps<{ task: Task }>();
 const emit = defineEmits<{

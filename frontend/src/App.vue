@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from "vue";
 import TaskCard from "@/components/TaskCard.vue";
 import EditTaskModal from "@/components/EditTaskModal.vue";
-import type { Task } from "@/type/Types.ts";
+import type { Task } from "@/types/Types";
 import { NotebookPen } from "lucide-vue-next";
 
 const tasks = ref<Task[]>([]);
@@ -58,12 +58,20 @@ async function addTask(): Promise<void> {
 
 async function updateTask(updt_task: Task): Promise<void> {
   const index = tasks.value.findIndex((t) => t.id === updt_task.id);
+
+  if (index === -1) return;
+
+  const currentTask = tasks.value[index];
+
+  if (!currentTask) return;
+
   if (
-    index === -1 ||
-    (tasks.value[index].done === updt_task.done &&
-      tasks.value[index].title === updt_task.title)
-  )
+    currentTask.done === updt_task.done &&
+    currentTask.title === updt_task.title
+  ) {
     return;
+  }
+
   try {
     const res = await fetch(`${URL}/tasks/${updt_task.id}`, {
       method: "PATCH",
@@ -75,12 +83,14 @@ async function updateTask(updt_task: Task): Promise<void> {
         done: updt_task.done,
       }),
     });
+
     if (!res.ok) {
-      throw new Error("Could not call backend to update the task:");
+      throw new Error("Could not update the task");
     }
+
     tasks.value[index] = updt_task;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
