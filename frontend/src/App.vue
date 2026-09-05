@@ -11,7 +11,7 @@ const newTask = ref("");
 const edit_task = ref<Task | null>(null);
 const URL = import.meta.env.VITE_BACKEND_URL;
 
-async function getTasks() {
+async function getTasks(): Promise<void> {
   try {
     const res = await fetch(`${URL}/tasks`);
 
@@ -35,7 +35,7 @@ async function getTasks() {
   }
 }
 
-async function addTask(): void {
+async function addTask(): Promise<void> {
   if (!newTask.value.trim()) return;
   const task = {
     id: Math.max(0, ...tasks.value.map((task) => task.id)) + 1,
@@ -56,7 +56,7 @@ async function addTask(): void {
   newTask.value = "";
 }
 
-async function updateTask(updt_task: Task): void {
+async function updateTask(updt_task: Task): Promise<void> {
   const index = tasks.value.findIndex((t) => t.id === updt_task.id);
   if (
     index === -1 ||
@@ -81,7 +81,7 @@ async function updateTask(updt_task: Task): void {
   }
 }
 
-async function deleteTask(task_id: Task["id"]): void {
+async function deleteTask(task_id: Task["id"]): Promise<void> {
   try {
     const res = await fetch(`${URL}/tasks/${task_id.id}`, {
       method: "Delete",
