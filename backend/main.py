@@ -61,7 +61,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:8000",
-        "https://taskmanager0000.netlify.app/",
+        "https://taskmanager0000.netlify.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
