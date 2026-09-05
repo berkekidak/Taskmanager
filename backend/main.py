@@ -7,6 +7,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 
 
+class UpdateTask(BaseModel):
+    title: str | None = None
+    done: bool | None = None
+
+
 class Task(BaseModel):
     id: int
     title: str
@@ -110,3 +115,26 @@ def create_task(task: Task):
     connection.commit()
     connection.close()
     return {"message": "task successfully added"}
+
+
+@app.patch("/tasks/{id}")
+def update_task(id: str, task: UpdateTask):
+    conn = sqlite3.connect("tasks.db")
+    c = conn.cursor()
+
+
+    c.execute("""
+                    UPDATE tasks 
+                    SET title = ?
+                    WHERE id = ?
+            """,
+            (task.title, id)
+            )
+
+    conn.commit()
+    conn.close()
+
+    return {
+        "message": "task updated successfully"
+    }
+    
