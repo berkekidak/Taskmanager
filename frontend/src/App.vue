@@ -86,7 +86,7 @@ async function updateTask(updt_task: Task): Promise<void> {
 
 async function deleteTask(task_id: Task["id"]): Promise<void> {
   try {
-    const res = await fetch(`${URL}/tasks/${task_id.id}`, {
+    const res = await fetch(`${URL}/tasks/${task_id}`, {
       method: "Delete",
     });
     if (!res.ok) {
