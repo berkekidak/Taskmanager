@@ -138,3 +138,22 @@ def update_task(id: str, task: UpdateTask):
         "message": "task updated successfully"
     }
     
+@app.delete("/tasks/{id}")
+def delete_task(id: int):
+    conn = sqlite3.connect("tasks.db")
+    c = conn.cursor()
+
+    c.execute("""
+                DELETE FROM tasks
+                WHERE id = ?
+            """,
+            (id,)
+            )
+
+    conn.commit()
+    conn.close()
+
+
+    return {
+        "message": "task deleted"
+    }
