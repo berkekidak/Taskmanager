@@ -56,14 +56,43 @@ async function addTask(): void {
   newTask.value = "";
 }
 
-function deleteTask(task_id: Task["id"]): void {
-  tasks.value = tasks.value.filter((t) => t.id !== task_id);
+async function updateTask(updt_task: Task): void {
+  const index = tasks.value.findIndex((t) => t.id === updt_task.id);
+  if (
+    index === -1 ||
+    (tasks.value[index].done === updt_task.done &&
+      tasks.value[index].title === updt_task.title)
+  )
+    return;
+  try {
+    const res = await fetch(`${URL}/tasks/${updt_task.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updt_task),
+    });
+    if (!res.ok) {
+      throw new Error("Could not call backend to update the task:");
+    }
+    tasks.value[index] = updt_task;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function updateTask(updt_task: Task): void {
-  const index = tasks.value.findIndex((t) => t.id === updt_task.id);
-  if (index === -1) return;
-  tasks.value[index] = updt_task;
+async function deleteTask(task_id: Task["id"]): void {
+  try {
+    const res = await fetch(`${URL}/tasks/${task_id.id}`, {
+      method: "Delete",
+    });
+    if (!res.ok) {
+      throw new Error("Could not Send request to delete the task");
+    }
+    tasks.value = tasks.value.filter((t) => t.id !== task_id);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function openEdit(task: Task): void {
