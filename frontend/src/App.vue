@@ -59,6 +59,7 @@ async function addTask(): Promise<void> {
 async function updateTask(updt_task: Task): Promise<void> {
   const index = tasks.value.findIndex((t) => t.id === updt_task.id);
 
+  // test
   if (index === -1) return;
 
   const currentTask = tasks.value[index];
