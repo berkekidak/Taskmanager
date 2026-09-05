@@ -61,6 +61,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:8000",
+        "https://taskmanager0000.netlify.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -122,38 +123,36 @@ def update_task(id: str, task: UpdateTask):
     conn = sqlite3.connect("tasks.db")
     c = conn.cursor()
 
-
-    c.execute("""
+    c.execute(
+        """
                     UPDATE tasks 
                     SET title = ?
                     WHERE id = ?
             """,
-            (task.title, id)
-            )
+        (task.title, id),
+    )
 
     conn.commit()
     conn.close()
 
-    return {
-        "message": "task updated successfully"
-    }
-    
+    return {"message": "task updated successfully"}
+
+
 @app.delete("/tasks/{id}")
 def delete_task(id: int):
     conn = sqlite3.connect("tasks.db")
     c = conn.cursor()
 
-    c.execute("""
+    c.execute(
+        """
                 DELETE FROM tasks
                 WHERE id = ?
             """,
-            (id,)
-            )
+        (id,),
+    )
 
     conn.commit()
     conn.close()
 
+    return {"message": "task deleted"}
 
-    return {
-        "message": "task deleted"
-    }
