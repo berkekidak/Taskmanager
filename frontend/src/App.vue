@@ -66,11 +66,14 @@ async function updateTask(updt_task: Task): Promise<void> {
     return;
   try {
     const res = await fetch(`${URL}/tasks/${updt_task.id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updt_task),
+      body: JSON.stringify({
+        title: updt_task.title,
+        done: updt_task.done,
+      }),
     });
     if (!res.ok) {
       throw new Error("Could not call backend to update the task:");
