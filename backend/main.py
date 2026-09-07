@@ -36,23 +36,6 @@ def create_database():
     connection.close()
 
 
-def init_db():
-    connection = sqlite3.connect("tasks.db")
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO tasks (id, title, done) 
-        VALUES
-        (1, "become a poet", False),
-        (2, "get groceries", True)
-        """
-    )
-
-    connection.commit()
-    connection.close()
-
-
 app = FastAPI()
 create_database()
 
