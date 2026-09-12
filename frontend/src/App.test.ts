@@ -24,7 +24,7 @@ describe("Task CRUD", () => {
       },
     ];
 
-    global.fetch = vi.fn(async () => ({
+    globalThis.fetch = vi.fn(async () => ({
       ok: true,
       json: async () => ({
         tasks: mockTasks,
@@ -35,7 +35,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining("/tasks"),
     );
 
@@ -44,7 +44,7 @@ describe("Task CRUD", () => {
   });
 
   it("sends a POST request and adds a task", async () => {
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
 
       // GET request from onMounted
@@ -73,7 +73,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenNthCalledWith(
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining("/tasks"),
       {
@@ -95,7 +95,7 @@ describe("Task CRUD", () => {
   });
 
   it("does not add an empty task", async () => {
-    global.fetch = vi.fn(async () => ({
+    globalThis.fetch = vi.fn(async () => ({
       ok: true,
       json: async () => ({
         tasks: [],
@@ -114,7 +114,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(globalThis.fetch).toHaveBeenCalledTimes(1);
   });
 
   it("sends a PATCH request and updates a task", async () => {
@@ -126,7 +126,7 @@ describe("Task CRUD", () => {
       },
     ];
 
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
 
       // GET
@@ -159,7 +159,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenNthCalledWith(
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining("/tasks/1"),
       {
@@ -186,7 +186,7 @@ describe("Task CRUD", () => {
       },
     ];
 
-    global.fetch = vi.fn(async () => ({
+    globalThis.fetch = vi.fn(async () => ({
       ok: true,
       json: async () => ({
         tasks: mockTasks,
@@ -209,7 +209,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(globalThis.fetch).toHaveBeenCalledTimes(1);
   });
 
   it("sends a DELETE request and removes a task", async () => {
@@ -221,7 +221,7 @@ describe("Task CRUD", () => {
       },
     ];
 
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
 
       // GET
@@ -251,7 +251,7 @@ describe("Task CRUD", () => {
 
     await flushPromises();
 
-    expect(global.fetch).toHaveBeenNthCalledWith(
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining("/tasks/1"),
       {
@@ -271,7 +271,7 @@ describe("Task CRUD", () => {
       },
     ];
 
-    global.fetch = vi.fn(async () => ({
+    globalThis.fetch = vi.fn(async () => ({
       ok: true,
       json: async () => ({
         tasks: mockTasks,
