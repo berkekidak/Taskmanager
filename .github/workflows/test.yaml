@@ -40,6 +40,8 @@ jobs:
   frontend:
     name: Frontend Tests
     runs-on: ubuntu-latest
+    env:
+      VITE_BACKEND_URL: http://localhost:5000
 
     defaults:
       run:
