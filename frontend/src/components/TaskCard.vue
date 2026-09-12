@@ -19,16 +19,19 @@ function toggle() {
   <div class="task">
     <div class="task-title">
       <input
+        data-test="task-checkbox"
         class="task-check"
         type="checkbox"
         :checked="task.done"
         @change="toggle"
       />
-      <p :class="{ completed: task.done }">{{ task.title }}</p>
+      <p data-test="task-title" :class="{ completed: task.done }">
+        {{ task.title }}
+      </p>
     </div>
     <div class="task-icons">
-      <Pencil @click="openEdit(task)" />
-      <Trash2 @click="deleteTask(task.id)" />
+      <Pencil data-test="edit-task" @click="openEdit(task)" />
+      <Trash2 data-test="delete-task" @click="deleteTask(task.id)" />
     </div>
   </div>
 </template>
