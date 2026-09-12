@@ -137,8 +137,9 @@ watch(
           </div>
         </div>
 
-        <form @submit.prevent="addTask" class="task-form">
+        <form @submit.prevent="addTask" data-test="task-form" class="task-form">
           <input
+            data-test="task-input"
             type="text"
             v-model="newTask"
             placeholder="Please enter a new task..."

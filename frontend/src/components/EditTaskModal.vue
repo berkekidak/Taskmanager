@@ -22,11 +22,12 @@ function save(): void {
   <div class="modal-backdrop">
     <div class="modal">
       <h2>Edit Task</h2>
-      <form class="modal-form" @submit.prevent="save">
-        <input type="text" v-model="title" />
+      <form data-test="edit-form" class="modal-form" @submit.prevent="save">
+        <input data-test="edit-input" type="text" v-model="title" />
         <div>
-          <button type="submit">Save</button>
+          <button data-test="save-button" type="submit">Save</button>
           <button
+            data-test="cancel-button"
             type="button"
             @click="emit('close')"
             style="background-color: var(--territary-color)"

@@ -1,42 +1,91 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import type { Task } from "@/type/Types.ts";
+import { mount } from "@vue/test-utils";
+import { describe, it, expect } from "vitest";
+import EditTaskModal from "./EditTaskModal.vue";
 
-const props = defineProps<{ task: Task }>();
-const emit = defineEmits<{
-  save: [task: Task];
-  close: [];
-}>();
-const task = ref(props.task);
-const title = ref(task.value.title);
+describe("EditTaskModal", () => {
+  it("shows the current task title in the input", () => {
+    const task = {
+      id: 1,
+      title: "Learn Vue",
+      done: false,
+    };
 
-function save(): void {
-  emit("save", {
-    ...props.task,
-    title: title.value,
+    const wrapper = mount(EditTaskModal, {
+      props: {
+        task,
+      },
+    });
+
+    const input = wrapper.get('[data-test="edit-input"]')
+      .element as HTMLInputElement;
+
+    expect(input.value).toBe("Learn Vue");
   });
-}
-</script>
 
-<template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <h2>Edit Task</h2>
-      <form class="modal-form" @submit.prevent="save">
-        <input type="text" v-model="title" />
-        <div>
-          <button type="submit">Save</button>
-          <button
-            type="button"
-            @click="emit('close')"
-            style="background-color: var(--territary-color)"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
+  it("allows the title to be changed", async () => {
+    const task = {
+      id: 1,
+      title: "Learn Vue",
+      done: false,
+    };
 
-<style scoped></style>
+    const wrapper = mount(EditTaskModal, {
+      props: {
+        task,
+      },
+    });
+
+    const input = wrapper.get('[data-test="edit-input"]');
+
+    await input.setValue("Learn Vitest");
+
+    expect((input.element as HTMLInputElement).value).toBe("Learn Vitest");
+  });
+
+  it("emits save with the updated task when the form is submitted", async () => {
+    const task = {
+      id: 1,
+      title: "Learn Vue",
+      done: false,
+    };
+
+    const wrapper = mount(EditTaskModal, {
+      props: {
+        task,
+      },
+    });
+
+    await wrapper.get('[data-test="edit-input"]').setValue("Learn Vitest");
+
+    await wrapper.get('[data-test="edit-form"]').trigger("submit");
+
+    expect(wrapper.emitted("save")).toBeTruthy();
+
+    expect(wrapper.emitted("save")?.[0]).toEqual([
+      {
+        id: 1,
+        title: "Learn Vitest",
+        done: false,
+      },
+    ]);
+  });
+
+  it("emits close when Cancel is clicked", async () => {
+    const task = {
+      id: 1,
+      title: "Learn Vue",
+      done: false,
+    };
+
+    const wrapper = mount(EditTaskModal, {
+      props: {
+        task,
+      },
+    });
+
+    await wrapper.get('[data-test="cancel-button"]').trigger("click");
+
+    expect(wrapper.emitted("close")).toBeTruthy();
+    expect(wrapper.emitted("close")).toHaveLength(1);
+  });
+});
