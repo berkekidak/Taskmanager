@@ -8,6 +8,8 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
+    "test": "vitest",
+    "test:run": "vitest run",
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
@@ -25,6 +27,7 @@
     "typescript": "~6.0.0",
     "vite": "^8.1.5",
     "vite-plugin-vue-devtools": "^8.1.5",
+    "vitest": "^5.0.0",
     "vtest": "^1.1.0",
     "vue-tsc": "^3.3.7"
   },
